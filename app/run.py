@@ -50,7 +50,8 @@ model = joblib.load("../models/classifier.pkl")
 @app.route('/')
 @app.route('/index')
 def index():
-
+    '''Create dashboard of data visualizations
+    '''
     # extract data needed for visuals
     # get the category data
     cat_names = df.columns[4:]
@@ -138,6 +139,8 @@ def index():
 # web page that handles user query and displays model results
 @app.route('/go')
 def go():
+    '''Accept user string input and predict category classifications for it.
+    '''
     # save user input in query
     query = request.args.get('query', '')
 
