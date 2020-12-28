@@ -2,6 +2,8 @@ import json
 import plotly
 import pandas as pd
 
+import re
+from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 
@@ -11,65 +13,124 @@ from plotly.graph_objs import Bar
 from sklearn.externals import joblib
 from sqlalchemy import create_engine
 
-
 app = Flask(__name__)
 
 def tokenize(text):
-    tokens = word_tokenize(text)
+    '''Convert raw text string to usable tokens for ML processing.
+    Inputs: text as raw string
+    Outputs: list of normalized, root-word tokens as strings
+    '''
+    # remove punctuation
+    text = re.sub(r"[^a-zA-Z0-9]", " ", text)
+    # break into word tokens
+    words = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
-
     clean_tokens = []
-    for tok in tokens:
-        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
-        clean_tokens.append(clean_tok)
-
+    for w in words:
+        # remove filler words
+        if w not in stopwords.words('english'):
+            # get roots
+            lem = lemmatizer.lemmatize(w)
+            lem = lemmatizer.lemmatize(w, pos='v')
+            #normalize
+            clean_tok = lem.lower().strip()
+            clean_tokens.append(clean_tok)
     return clean_tokens
 
+
 # load data
-engine = create_engine('sqlite:///../data/YourDatabaseName.db')
-df = pd.read_sql_table('YourTableName', engine)
+engine = create_engine('sqlite:///../data/DisasterResponse.db')
+df = pd.read_sql_table('dmessages', engine)
 
 # load model
-model = joblib.load("../models/your_model_name.pkl")
+model = joblib.load("../models/classifier.pkl")
 
 
 # index webpage displays cool visuals and receives user input text for model
 @app.route('/')
 @app.route('/index')
 def index():
-    
+
     # extract data needed for visuals
-    # TODO: Below is an example - modify to extract data for your own visuals
-    genre_counts = df.groupby('genre').count()['message']
-    genre_names = list(genre_counts.index)
-    
+    # get the category data
+    cat_names = df.columns[4:]
+    df_cats = df[cat_names]
+    # What are the top 15 categories?
+    cat_sums = df_cats.sum(axis=0).sort_values(ascending=False)
+    top_15_cat_amts = cat_sums[:15]
+    top_15_cat_names = list(top_15_cat_amts.index)
+    # What categories most associated with requests?
+    req = df_cats.loc[df_cats['request'] == 1]
+    req_sums = req.sum(axis=0).sort_values(ascending=False)
+    # intentionally exclude 'related' as uninformational and 'request' as duplicative
+    top_15_req = req_sums[2:17]
+    top_15_req_names = list(top_15_req.index)
+    # How many messages have more than one category assigned?
+    cat_counts = df_cats.apply(lambda row: sum(row[0:35]==1) ,axis=1)
+    cat_vc = cat_counts.value_counts()
+    # get the number of messages that have more than one category assigned (>0,1)
+    cat_multi = cat_vc.iloc[2:]
+    cat_multi_buckets = list(cat_multi.index)
+
     # create visuals
-    # TODO: Below is an example - modify to create your own visuals
     graphs = [
         {
             'data': [
                 Bar(
-                    x=genre_names,
-                    y=genre_counts
+                    x=top_15_cat_names,
+                    y=top_15_cat_amts
                 )
             ],
-
             'layout': {
-                'title': 'Distribution of Message Genres',
+                'title': 'The Top 15 Categories',
                 'yaxis': {
-                    'title': "Count"
+                    'title': "Messages"
                 },
                 'xaxis': {
-                    'title': "Genre"
+                    'title': "Category"
                 }
             }
-        }
+        },
+        {
+            'data': [
+                Bar(
+                    x=top_15_req_names,
+                    y=top_15_req
+                )
+            ],
+            'layout': {
+                'title': 'The Top 15 Requested Needs',
+                'yaxis': {
+                    'title': "Number of Requests"
+                },
+                'xaxis': {
+                    'title': "Category"
+                }
+            }
+        },
+        {
+            'data': [
+                Bar(
+                    x=cat_multi_buckets,
+                    y=cat_multi
+                )
+            ],
+            'layout': {
+                'title': 'Messages with Multiple Categories',
+                'yaxis': {
+                    'title': "Number of Messages"
+                },
+                'xaxis': {
+                    'title': "Number of Categories"
+                }
+            }
+        },
     ]
-    
+
     # encode plotly graphs in JSON
     ids = ["graph-{}".format(i) for i, _ in enumerate(graphs)]
     graphJSON = json.dumps(graphs, cls=plotly.utils.PlotlyJSONEncoder)
-    
+
     # render web page with plotly graphs
     return render_template('master.html', ids=ids, graphJSON=graphJSON)
 
@@ -78,13 +139,13 @@ def index():
 @app.route('/go')
 def go():
     # save user input in query
-    query = request.args.get('query', '') 
+    query = request.args.get('query', '')
 
     # use model to predict classification for query
     classification_labels = model.predict([query])[0]
     classification_results = dict(zip(df.columns[4:], classification_labels))
 
-    # This will render the go.html Please see that file. 
+    # This will render the go.html Please see that file.
     return render_template(
         'go.html',
         query=query,
