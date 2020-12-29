@@ -1,22 +1,23 @@
 ﻿# README
 
-### Instructions:
+## Associated webapp to view output of these files:
+
+Current: https://view6914b2f4-3001.udacity-student-workspaces.com/
+
+
+### Instructions for running these files in local environment:
 1. Run the following commands in the project's root directory to set up your database and model.
 
     - To run ETL pipeline that cleans data and stores in database
         `python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
-    - To run ML pipeline that trains classifier and saves
+    - To run ML pipeline that trains classifier and saves it for use
         `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
+        (Please note that train_classifier takes an average of 110min to run on a single processor.)
 
 2. Run the following command in the app's directory to run your web app.
     `python run.py`
 
 3. Go to http://0.0.0.0:3001/
-
-## Associated webapp
-
-Current: In this example, that would be: "https://viewa7a4999b-3001.udacity-student-workspaces.com/"
-TODO: V2: deploy to web server
 
 ## Motivation
 
@@ -28,13 +29,15 @@ This project is motivated by the need for disaster relief organizations to assig
 * Visualization Two: Which categories are most associated with requests for help?
 * Visualization Three: How many messages have more than one category assigned?
 ### Model performance
-* Good Performers Table Screenshot
+* The currently saved overall model accuracy is 94%.
 
 
 ## TODO: WebAppImages
-![alt text](https://github.com/lisaquera/disaster_data/blob/[branch]/image.jpg?raw=true)
-or
-![GitHub Logo](/images/logo.png)
+
+![Web app dashboard screenshot top categories](https://github.com/lisaquera/disaster_data/blob/main/images/DR_dashboard_top_cats.png?raw=true)
+![Web app dashboard screenshot most requested categories](https://github.com/lisaquera/disaster_data/blob/main/images/DR_dashboard_most_needed.png?raw=true)
+![Web app dashboard screenshot multiple category messages](https://github.com/lisaquera/disaster_data/blob/main/images/DR_dashboard_multi_cats.png?raw=true)
+![Web app dashboard screenshot category predictions from query text](https://github.com/lisaquera/disaster_data/blob/main/images/DR_category_predictions.png?raw=true)
 
 ## Libraries and files
 Libraries required: sys, re, pandas, NLTK, Scikit-learn, joblib, plotly, JSON,
@@ -43,11 +46,12 @@ flask, and sqlalchemy
 Files:
 * disaster_messages.csv and disaster_categories.csv provide the dataset of text messages labeled by FigureEight with 36 potential categories.
 * DisasterResponse.db table dmessages
-* Model file is classifier.pkl
 * process_data.py
 * training_classifier.py
 * run.py
-* webappUI defined with master.html and go.html in templates
+* webappUI is defined with master.html and go.html in templates
+* requirements.txt is a pip freeze from the Workspace
+* Model file classifier.pkl is larger than github limit of 25mb so not included
 
 
 ## Dataset Class Compositions
