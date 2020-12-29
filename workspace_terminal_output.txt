@@ -1,0 +1,297 @@
+root@e4bc945b995b:/home/workspace# python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl
+[nltk_data] Downloading package punkt to /root/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[nltk_data] Downloading package wordnet to /root/nltk_data...
+[nltk_data]   Package wordnet is already up-to-date!
+[nltk_data] Downloading package stopwords to /root/nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
+Loading data...
+    DATABASE: data/DisasterResponse.db
+Building model...
+Training model...
+Fitting 3 folds for each of 6 candidates, totalling 18 fits
+[Parallel(n_jobs=-1)]: Done  18 out of  18 | elapsed: 94.3min finished
+Evaluating model...
+Total accuracy across categories for the model is 0.916916008828
+/opt/conda/lib/python3.6/site-packages/sklearn/metrics/classification.py:1135: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples.
+  'precision', 'predicted', average, warn_for)
+/opt/conda/lib/python3.6/site-packages/sklearn/metrics/classification.py:1137: UndefinedMetricWarning: Recall and F-score are ill-defined and being set to 0.0 in labels with no true samples.
+  'recall', 'true', average, warn_for)
+related              precision    recall  f1-score   support
+
+          0       0.91      1.00      0.96        32
+          1       0.00      0.00      0.00         4
+          2       0.00      0.00      0.00         0
+
+avg / total       0.81      0.89      0.85        36
+
+request              precision    recall  f1-score   support
+
+          0       1.00      0.97      0.99        36
+          2       0.00      0.00      0.00         0
+
+avg / total       1.00      0.97      0.99        36
+
+offer              precision    recall  f1-score   support
+
+          0       1.00      0.97      0.99        36
+          2       0.00      0.00      0.00         0
+
+avg / total       1.00      0.97      0.99        36
+
+aid_related              precision    recall  f1-score   support
+
+          0       0.91      1.00      0.96        32
+          1       0.00      0.00      0.00         4
+          2       0.00      0.00      0.00         0
+
+avg / total       0.81      0.89      0.85        36
+
+medical_help              precision    recall  f1-score   support
+
+          0       0.83      1.00      0.91        29
+          1       0.00      0.00      0.00         7
+          2       0.00      0.00      0.00         0
+
+avg / total       0.67      0.81      0.73        36
+
+medical_products              precision    recall  f1-score   support
+
+          0       1.00      0.97      0.99        36
+          2       0.00      0.00      0.00         0
+
+avg / total       1.00      0.97      0.99        36
+
+search_and_rescue              precision    recall  f1-score   support
+
+          0       0.91      1.00      0.96        32
+          1       0.00      0.00      0.00         4
+          2       0.00      0.00      0.00         0
+
+avg / total       0.81      0.89      0.85        36
+
+security              precision    recall  f1-score   support
+
+          0       0.80      1.00      0.89        28
+          1       0.00      0.00      0.00         8
+          2       0.00      0.00      0.00         0
+
+avg / total       0.62      0.78      0.69        36
+
+military              precision    recall  f1-score   support
+
+          0       0.83      1.00      0.91        29
+          1       0.00      0.00      0.00         7
+          2       0.00      0.00      0.00         0
+
+avg / total       0.67      0.81      0.73        36
+
+child_alone              precision    recall  f1-score   support
+
+          0       1.00      0.97      0.98        31
+          1       0.83      1.00      0.91         5
+
+avg / total       0.98      0.97      0.97        36
+
+water              precision    recall  f1-score   support
+
+          0       1.00      1.00      1.00        36
+
+avg / total       1.00      1.00      1.00        36
+
+food              precision    recall  f1-score   support
+
+          0       0.97      1.00      0.99        35
+          1       0.00      0.00      0.00         1
+
+avg / total       0.95      0.97      0.96        36
+
+shelter              precision    recall  f1-score   support
+
+          0       1.00      1.00      1.00        35
+          1       0.00      0.00      0.00         1
+          2       0.00      0.00      0.00         0
+
+avg / total       0.97      0.97      0.97        36
+
+clothing              precision    recall  f1-score   support
+
+          0       1.00      0.94      0.97        35
+          1       0.33      1.00      0.50         1
+
+avg / total       0.98      0.94      0.96        36
+
+money              precision    recall  f1-score   support
+
+          0       1.00      0.97      0.99        36
+          2       0.00      0.00      0.00         0
+
+avg / total       1.00      0.97      0.99        36
+
+missing_people              precision    recall  f1-score   support
+
+          0       1.00      1.00      1.00        35
+          1       0.00      0.00      0.00         1
+          2       0.00      0.00      0.00         0
+
+avg / total       0.97      0.97      0.97        36
+
+refugees              precision    recall  f1-score   support
+
+          0       0.86      1.00      0.92        30
+          1       0.00      0.00      0.00         6
+          2       0.00      0.00      0.00         0
+
+avg / total       0.71      0.83      0.77        36
+
+death              precision    recall  f1-score   support
+
+          0       1.00      0.97      0.99        36
+          2       0.00      0.00      0.00         0
+
+avg / total       1.00      0.97      0.99        36
+
+other_aid              precision    recall  f1-score   support
+
+          0       1.00      1.00      1.00        35
+          1       0.00      0.00      0.00         1
+          2       0.00      0.00      0.00         0
+
+avg / total       0.97      0.97      0.97        36
+
+infrastructure_related              precision    recall  f1-score   support
+
+          0       0.94      1.00      0.97        30
+          1       1.00      0.67      0.80         6
+
+avg / total       0.95      0.94      0.94        36
+
+transport              precision    recall  f1-score   support
+
+          0       1.00      0.97      0.99        36
+          2       0.00      0.00      0.00         0
+
+avg / total       1.00      0.97      0.99        36
+
+buildings              precision    recall  f1-score   support
+
+          0       0.86      1.00      0.92        30
+          1       1.00      0.17      0.29         6
+
+avg / total       0.88      0.86      0.82        36
+
+electricity              precision    recall  f1-score   support
+
+          0       1.00      1.00      1.00        35
+          1       0.00      0.00      0.00         1
+          2       0.00      0.00      0.00         0
+
+avg / total       0.97      0.97      0.97        36
+
+tools              precision    recall  f1-score   support
+
+          0       0.94      1.00      0.97        33
+          1       0.00      0.00      0.00         3
+          2       0.00      0.00      0.00         0
+
+avg / total       0.86      0.92      0.89        36
+
+hospitals              precision    recall  f1-score   support
+
+          0       0.97      1.00      0.99        35
+          1       0.00      0.00      0.00         1
+
+avg / total       0.95      0.97      0.96        36
+
+shops              precision    recall  f1-score   support
+
+          0       1.00      1.00      1.00        35
+          1       1.00      1.00      1.00         1
+
+avg / total       1.00      1.00      1.00        36
+
+aid_centers              precision    recall  f1-score   support
+
+          0       1.00      1.00      1.00        35
+          1       0.00      0.00      0.00         1
+          2       0.00      0.00      0.00         0
+
+avg / total       0.97      0.97      0.97        36
+
+other_infrastructure              precision    recall  f1-score   support
+
+          0       1.00      1.00      1.00        35
+          1       0.00      0.00      0.00         1
+          2       0.00      0.00      0.00         0
+
+avg / total       0.97      0.97      0.97        36
+
+weather_related              precision    recall  f1-score   support
+
+          0       0.91      1.00      0.96        32
+          1       0.00      0.00      0.00         4
+          2       0.00      0.00      0.00         0
+
+avg / total       0.81      0.89      0.85        36
+
+floods              precision    recall  f1-score   support
+
+          0       0.97      1.00      0.99        35
+          1       0.00      0.00      0.00         1
+
+avg / total       0.95      0.97      0.96        36
+
+storm              precision    recall  f1-score   support
+
+          0       1.00      0.97      0.99        36
+          2       0.00      0.00      0.00         0
+
+avg / total       1.00      0.97      0.99        36
+
+fire              precision    recall  f1-score   support
+
+          0       1.00      1.00      1.00        35
+          1       0.00      0.00      0.00         1
+          2       0.00      0.00      0.00         0
+
+avg / total       0.97      0.97      0.97        36
+
+earthquake              precision    recall  f1-score   support
+
+          0       0.94      1.00      0.97        33
+          1       0.00      0.00      0.00         3
+          2       0.00      0.00      0.00         0
+
+avg / total       0.86      0.92      0.89        36
+
+cold              precision    recall  f1-score   support
+
+          0       1.00      0.97      0.99        36
+          2       0.00      0.00      0.00         0
+
+avg / total       1.00      0.97      0.99        36
+
+other_weather              precision    recall  f1-score   support
+
+          0       0.94      1.00      0.97        33
+          1       1.00      0.33      0.50         3
+
+avg / total       0.95      0.94      0.93        36
+
+direct_report              precision    recall  f1-score   support
+
+          0       1.00      0.97      0.99        36
+          2       0.00      0.00      0.00         0
+
+avg / total       1.00      0.97      0.99        36
+
+Saving model...
+    MODEL: models/classifier.pkl
+Trained model saved!
+root@e4bc945b995b:/home/workspace# cd app
+root@e4bc945b995b:/home/workspace/app# python run.py
+ * Running on http://0.0.0.0:3001/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 262-748-047
+172.18.0.1 - - [29/Dec/2020 20:01:53] "GET / HTTP/1.1" 200 -
