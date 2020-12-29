@@ -40,6 +40,7 @@ def load_data(database_filepath):
     X = df['message']
     Y = df.drop(['id','message','original','genre'], axis=1)
     category_names = Y.columns
+    conn.close()
     return X, Y, category_names
 
 
@@ -74,7 +75,7 @@ def build_model():
     pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer=tokenize, lowercase=False)),
         ('tfidf', TfidfTransformer(smooth_idf=False)),
-        ('clf', MultiOutputClassifier(RandomForestClassifier(n_jobs=-1)))
+        ('clf', MultiOutputClassifier(AdaBoostClassifier()))
     ])
     parameters = {
         'tfidf__use_idf': (True, False),
@@ -95,20 +96,29 @@ def evaluate_model(model, X_test, Y_test, category_names):
         Y_test as test labels
         category_names as list of category strings
     Outcome: print the macro average for each metric for each category.
-    '''
+
+    Note to reviewer: in sklearn 0.20 an output_dict was added to classification_report() and my dev environment function included that.
+    However, this Workspace has sklearn 0.19 so I'm just doing a print.
+    Dev environment code:
     Y_pred = model.predict(X_test)
     score_dict = {}
     targets = Y_test.values
     for idx, cat in enumerate(category_names):
-        cr = classification_report(targets[idx], y_preds[idx], output_dict=True)
+        cr = classification_report(targets[idx], Y_pred[idx], output_dict=True)
         cat_ma = cat+'_macro_avg'
         score_dict[cat_ma] = cr['macro avg']
     score_df = pd.DataFrame.from_dict(score_dict, orient='columns').transpose()
     score_df = score_df.drop(['support'], axis=1)
-    # you could return the score_df to do analysis
-    print(score_df.head(36))
+    return score_df
+    '''
+    Y_pred = model.predict(X_test)
     total_accuracy = (Y_pred == Y_test).mean().mean()
     print("Total accuracy across categories for the model is "+str(total_accuracy))
+    targets = Y_test.values
+    for idx, cat in enumerate(category_names):
+        cr = classification_report(targets[idx], Y_pred[idx])
+        print(cat, cr)
+
 
 def save_model(model, model_filepath):
     '''Store the trained model for use in the web application.
