@@ -30,6 +30,9 @@ def clean_data(df):
         cats[column] = cats[column].apply(lambda x: x[-1:])
         # convert column from string to numeric
         cats[column] = pd.to_numeric(cats[column])
+        # REVIEWER: Please note this response to submission one feedback.
+        # ensure only binary values 0,1
+        cats = cats[cats[column].between(0,1)]
     # drop the original categories column from `df` as now unnecessary
     df = df.drop(['categories'], axis=1)
     # concatenate the original dataframe with the new `categories` dataframe
