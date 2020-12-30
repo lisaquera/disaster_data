@@ -39,6 +39,9 @@ def clean_data(df):
     df = pd.concat([df, cats], axis=1, ignore_index=False)
     # remove any duplicate values from the training data column
     df = df.drop_duplicates(subset=['message'])
+    #ensure no null values get stored
+    df = df.fillna(value=0)
+    print(df.isnull().sum().sum())
     return df
 
 def save_data(df, database_filename):
