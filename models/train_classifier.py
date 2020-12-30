@@ -39,6 +39,9 @@ def load_data(database_filepath):
 
     X = df['message']
     Y = df.drop(['id','message','original','genre'], axis=1)
+    #check for null values before training
+    if Y.isnull().sum().sum() > 0:
+        Y = Y.fillna(value=0)
     category_names = Y.columns
     conn.close()
     return X, Y, category_names
